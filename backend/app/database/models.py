@@ -23,6 +23,7 @@ class Client(Base):
     documents = relationship("Document", back_populates="client", cascade="all, delete")
     chat_sessions = relationship("ChatSession", back_populates="client", cascade="all, delete")
     chat_messages = relationship("ChatMessage", back_populates="client", cascade="all, delete")
+    crawler_jobs = relationship("CrawlerJob", back_populates="client")
 
 class Document(Base):
     __tablename__ = "documents"
@@ -78,3 +79,17 @@ class Analytics(Base):
     
     # Relationships
     client = relationship("Client")
+
+class CrawlerJob(Base):
+    __tablename__ = "crawler_jobs"
+    
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
+    client_id = Column(String, ForeignKey("clients.id"))
+    url = Column(String, nullable=False)
+    status = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    completed_at = Column(DateTime, nullable=True)
+    result_data = Column(JSON, nullable=True)
+
+    # Relationship to the client
+    client = relationship("Client", back_populates="crawler_jobs")

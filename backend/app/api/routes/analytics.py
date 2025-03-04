@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from datetime import datetime, timedelta
+import logging
 
 from app.database.session import get_db
 from app.database.crud import get_client_analytics, save_analytics_snapshot
@@ -9,16 +10,26 @@ from app.database.models import Client, ChatSession, ChatMessage
 from app.api.deps import get_current_client
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 @router.get("/summary")
-def get_analytics_summary(
-    days: int = 30,
+async def get_analytics_summary(
+    days: Optional[int] = Query(30, description="Number of days to include in summary"), 
     current_client: Client = Depends(get_current_client),
     db: Session = Depends(get_db)
 ):
-    """Get analytics summary for the current client."""
-    analytics = get_client_analytics(db=db, client_id=current_client.id, days=days)
-    return analytics
+    """
+    Get analytics summary for the dashboard.
+    """
+    try:
+        analytics = get_client_analytics(db=db, client_id=current_client.id, days=days)
+        return analytics
+    except Exception as e:
+        logger.error(f"Error in analytics summary: {str(e)}")
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Error generating analytics summary: {str(e)}"
+        )
 
 @router.get("/sessions/daily")
 def get_daily_sessions(

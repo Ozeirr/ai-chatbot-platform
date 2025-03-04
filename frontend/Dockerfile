@@ -1,9 +1,11 @@
-FROM node:16-alpine
+FROM node:18
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json package-lock.json* ./
+
+# Instead of npm ci, use npm install to sync package-lock with package.json
+RUN npm install
 
 COPY . .
 
