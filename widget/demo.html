@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chatbot Widget Demo</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #333;
+    }
+    .content {
+      margin-bottom: 50px;
+    }
+    button {
+      background-color: #4A90E2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #3A7BC8;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>AI Chatbot Widget Demo</h1>
+    <p>This page demonstrates the AI Chatbot Widget integration. Click the chat button in the bottom-right corner to start a conversation.</p>
+    <p>You can also click the button below to programmatically open the chat:</p>
+    <button onclick="window.openAIChatbot()">Open Chat</button>
+    
+    <h2>Features</h2>
+    <ul>
+      <li>Natural language understanding</li>
+      <li>Context-aware responses</li>
+      <li>Customizable appearance</li>
+      <li>Mobile-friendly design</li>
+    </ul>
+    
+    <h2>Integration</h2>
+    <p>Add this to your website:</p>
+    <pre><code>&lt;script 
+  src="widget.js" 
+  data-api-key="YOUR_API_KEY"
+  data-primary-color="#4A90E2"
+  data-bot-name="AI Assistant"&gt;
+&lt;/script&gt;</code></pre>
+  </div>
+  
+  <!-- Widget Script -->
+  <script src="dist/widget.js" 
+    data-api-url="http://localhost:8000"
+    data-api-key="579ba7c4-9006-4f4c-9a2a-b23c15d3f176"
+    data-bot-name="TechGadgets Assistant"
+    data-welcome-message="Welcome! How can I help you with TechGadgets products?">
+  </script>
+</body>
+</html>
